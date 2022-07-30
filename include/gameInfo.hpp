@@ -18,7 +18,7 @@ const char* diskAA[TURN_MAX]=
 {
     "●",    // black
     "○",    // white
-    "・"     // none
+    "□"     // none
 };
 
 // 関数
