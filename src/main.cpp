@@ -2,6 +2,7 @@
 #include <stdlib.h>
 ///#include <conio.h>
 #include "../include/gameInfo.hpp"
+#include "../include/conio.h"
 
 int main(void)
 {
@@ -37,17 +38,17 @@ void init()
     // ボードの描画
     drawScreen();
 
-    switch (_getch()) {
-        case "w":
+    switch (getch()) {
+        case 'w':
             cursorPosition.y--;
             break;
-        case "s":
+        case 's':
             cursorPosition.y++;
             break;
-        case "a":
+        case 'a':
             cursorPosition.x--;
             break;
-        case "d":
+        case 'd':
             cursorPosition.x++;
             break;
 
