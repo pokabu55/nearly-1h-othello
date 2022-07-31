@@ -21,6 +21,16 @@ const char* diskAA[TURN_MAX]=
     "□"     // none
 };
 
+// ベクトル構造体
+typedef struct
+{
+    // 座標
+    int x, y;
+}VEC2;
+
+VEC2 cursorPosition;
+
 // 関数
 void init();
 void drawScreen();
+VEC2 inputPosition();
