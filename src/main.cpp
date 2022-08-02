@@ -9,6 +9,9 @@ int main(void)
     // 初期化
     init();
 
+    // 黒のターンで初期化
+    turn = TURN_BLACK;
+
     // 6-9 メインループ
     while (1) {
         // 石を置くマスを宣言する
@@ -61,9 +64,6 @@ void drawScreen()
         printf("\n");
     }
 
-    for(int y=0; y<BOARD_HEIGHT; y++) {
-    }
-
     for (int x=0; x<BOARD_WIDTH; x++) {
 
         // カーソルの描画
@@ -73,6 +73,9 @@ void drawScreen()
             printf(" ");//　");
         }
     }
+
+    // ターンを表示する
+    printf("%sのターンです\n", turnName[turn]);
 
     printf("\n");
 }

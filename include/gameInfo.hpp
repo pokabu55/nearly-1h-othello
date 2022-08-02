@@ -28,7 +28,13 @@ typedef struct
     int x, y;
 }VEC2;
 
-VEC2 cursorPosition;
+const char* turnName[] = {
+    "黒",   // TURN_BLACK
+    "白"    // TURN_WHITE
+};
+
+VEC2 cursorPosition;    // 現在のカーソル位置
+int  turn;              // 現在のターンの宣言
 
 // 関数
 void init();
