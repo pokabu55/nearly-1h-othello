@@ -33,7 +33,8 @@ void init()
     board[4][3] = board[3][4] = TURN_BLACK;
     board[3][3] = board[4][4] = TURN_WHITE;
 
-    cursorPosition.x = cursorPosition.y = 0;
+    // カーソル位置の初期化
+    cursorPosition = {3,3};
 
     // ボードの描画
     drawScreen();
