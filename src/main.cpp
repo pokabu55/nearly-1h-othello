@@ -37,22 +37,6 @@ void init()
 
     // ボードの描画
     drawScreen();
-
-    switch (getch()) {
-        case 'w':
-            cursorPosition.y--;
-            break;
-        case 's':
-            cursorPosition.y++;
-            break;
-        case 'a':
-            cursorPosition.x--;
-            break;
-        case 'd':
-            cursorPosition.x++;
-            break;
-
-    }
 }
 
 // ボードの描画
@@ -85,7 +69,7 @@ void drawScreen()
         if (x==cursorPosition.x) {
             printf("↑");
         } else {
-            printf("  ");
+            printf(" ");//　");
         }
     }
 
@@ -99,6 +83,23 @@ VEC2 inputPosition()
     // 置けるマスが選択されるまで無限ループ
     while (1) {
         drawScreen();
+
+           // 入力されたキーによって分岐する
+        switch (getch()) {
+            case 'w':
+                cursorPosition.y--;
+                break;
+            case 's':
+                cursorPosition.y++;
+                break;
+            case 'a':
+                cursorPosition.x--;
+                break;
+            case 'd':
+                cursorPosition.x++;
+                break;
+
+        }
     }
 }
 
