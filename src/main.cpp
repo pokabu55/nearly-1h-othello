@@ -75,7 +75,7 @@ void drawScreen()
     }
 
     // ターンを表示する
-    printf("%sのターンです\n", turnName[turn]);
+    printf("\n%sのターンです\n", turnName[turn]);
 
     printf("\n");
 }
