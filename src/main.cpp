@@ -98,8 +98,12 @@ VEC2 inputPosition()
             case 'd':
                 cursorPosition.x++;
                 break;
-
         }
+
+        // カーソルを左右ループさせる
+        cursorPosition.x = (BOARD_WIDTH+cursorPosition.x) % BOARD_WIDTH;
+        // カーソルを上下ループさせる
+        cursorPosition.y = (BOARD_HEIGHT+cursorPosition.y) % BOARD_HEIGHT;
     }
 }
 
