@@ -19,6 +19,13 @@ int main(void)
 
         // 石を置くマスを選択する関数
         placePosition = inputPosition();
+
+        // 石を置く
+        board[placePosition.y][placePosition.x] = turn;
+
+        // ターンを変える
+        // ビット排他的論理和代入だって
+        turn ^= 1;
     }
 }
 
@@ -102,6 +109,9 @@ VEC2 inputPosition()
             case 'd':
                 cursorPosition.x++;
                 break;
+            default:
+                // 上記以外のキー入力されたら、カーソル座標を返す
+                return cursorPosition;
         }
 
         // カーソルを左右ループさせる
