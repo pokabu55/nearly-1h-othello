@@ -53,8 +53,8 @@ void init()
 // ボードの描画
 void drawScreen()
 {
-    // 画面をクリア
-    system("cls");
+    // 画面をクリア winは、clsだったので変更
+    system("clear");
 
     for(int y=0; y<BOARD_HEIGHT; y++) {
         for (int x=0; x<BOARD_WIDTH; x++) {
