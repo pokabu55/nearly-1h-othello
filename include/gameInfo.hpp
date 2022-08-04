@@ -40,3 +40,4 @@ int  turn;              // 現在のターンの宣言
 void init();
 void drawScreen();
 VEC2 inputPosition();
+bool checkCanPlace(int _color, VEC2 _position);

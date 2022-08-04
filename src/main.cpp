@@ -111,7 +111,18 @@ VEC2 inputPosition()
                 break;
             default:
                 // 上記以外のキー入力されたら、カーソル座標を返す
-                return cursorPosition;
+
+                // カーソル位置に置けるかの判定
+                if (checkCanPlace(turn, cursorPosition)) {
+                    return cursorPosition;
+                } else {
+                    // 置けなければ
+                    printf("そこには置けないよ");
+
+                    // 入力を待つ
+                    getch();
+                }
+                break;
         }
 
         // カーソルを左右ループさせる
@@ -121,3 +132,12 @@ VEC2 inputPosition()
     }
 }
 
+bool checkCanPlace(
+    int     _color,     // 石の色
+    VEC2    _position   // 座標
+){
+    // 置けるフラグ
+    bool canPlace = false;
+
+    return canPlace;
+}
