@@ -1,4 +1,4 @@
-# nearly1hour-othero
+# nearly-1h-othello
 小一時間でゲームを作るより、３章のリバーシを実装。
 
 # 書籍情報
