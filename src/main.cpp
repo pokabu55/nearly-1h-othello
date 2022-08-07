@@ -139,5 +139,66 @@ bool checkCanPlace(
     // 置けるフラグ
     bool canPlace = false;
 
+    // 対象座標に石があるか判定する
+    if (board[_position.y][_position.x] != TURN_NONE) {
+        // 石が既にあるので置けない、を返す
+        return false;
+    }
+
+    // 相手の石の色を宣言する
+    int opponent = _color^1;
+
+    // すべての方向を反復する
+    for (int i=0; i<DIRECTION_MAX; i++) {
+        // 現在チェック中の座標を宣言する
+        VEC2 currentPosition = _position;
+
+        // 隣のマスに移動する
+        currentPosition = vecAdd(_position, directions[i]);
+
+        // 相手の石でないか判定する
+        if (board[currentPosition.y][currentPosition.x] != opponent){
+            //相手の石でなければ、その方向のチェックを中断する
+            continue;
+        }
+
+        // 無限ループする
+        while(1) {
+            // 隣のマスへ移動する
+            currentPosition = vecAdd(currentPosition,directions[i]);
+
+            // チェックするマスが盤面の範囲内かチェック
+            if ((currentPosition.x < 0) ||
+                (currentPosition.x >= BOARD_WIDTH) ||
+                (currentPosition.y < 0) ||
+                (currentPosition.y >= BOARD_HEIGHT)) {
+                break;
+            }
+
+            // チェックするマスに石がないかどうかを判定
+            if (board[currentPosition.y][currentPosition.x] == TURN_NONE) {
+                // 石がなければ、現在の方向のチェックをやめる
+                break;
+            }
+
+            // チェックするマスに自分の石があれば
+            if (board[currentPosition.y][currentPosition.x] == _color) {
+                // 石が置けることが確定する
+                canPlace = true;
+            }
+        }
+    }
+
     return canPlace;
+}
+
+VEC2 vecAdd(
+    VEC2 _v0,   // 
+    VEC2 _v1    // 
+){
+    // 加算したベクトルを返す
+    return {
+        _v0.x + _v1.x,
+        _v0.y + _v1.y
+    };
 }
