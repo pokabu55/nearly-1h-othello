@@ -29,8 +29,8 @@ enum {
 // 石のアスキーアート
 const char* diskAA[TURN_MAX]=
 {
-    "●",    // black
-    "○",    // white
+    "○",    // black
+    "●",    // white
     "□"     // none
 };
 
