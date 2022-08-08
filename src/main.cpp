@@ -20,6 +20,9 @@ int main(void)
         // 石を置くマスを選択する関数
         placePosition = inputPosition();
 
+        // 石をひっくり返す
+        checkCanPlace(turn, placePosition, true);
+
         // 石を置く
         board[placePosition.y][placePosition.x] = turn;
 
@@ -132,9 +135,11 @@ VEC2 inputPosition()
     }
 }
 
+// 石を置けるかの判定、または石をひっくり返す関数
 bool checkCanPlace(
     int     _color,     // 石の色
-    VEC2    _position   // 座標
+    VEC2    _position,  // 座標
+    bool    _turnOver   // ひっくり返すかどうか
 ){
     // 置けるフラグ
     bool canPlace = false;
@@ -185,6 +190,24 @@ bool checkCanPlace(
             if (board[currentPosition.y][currentPosition.x] == _color) {
                 // 石が置けることが確定する
                 canPlace = true;
+
+                // ひっくり返しフラグが立っているかどうか判定する
+                if (_turnOver) {
+                    // ひっくり返す座標を宣言する
+                    VEC2 reversePosition = _position;
+
+                    // 隣のマスに移動する
+                    reversePosition = vecAdd(reversePosition, directions[i]);
+
+                    do
+                    {
+                        while (board[reversePosition.y][reversePosition.x] != _color)
+                        {
+                            /* code */
+                        }
+                        
+                    }
+                }
             }
         }
     }
