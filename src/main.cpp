@@ -14,6 +14,16 @@ int main(void)
 
     // 6-9 メインループ
     while (1) {
+
+        // 置けるマスがあるかどうかをチェックする
+        if (!checkCanPlaceAll(turn)) {
+            // ターンを切り替える
+            turn ^= 1;
+
+            // ターンをスキップして相手へ
+            continue;
+        }
+
         // 石を置くマスを宣言する
         VEC2 placePosition;
 
@@ -217,6 +227,27 @@ bool checkCanPlace(
     return canPlace;
 }
 
+// 盤面上に石を置けるマスがあるかどうかを判定する
+bool checkCanPlaceAll(int _color)
+{
+    // 盤面をスキャン
+    for (int y=0; y<BOARD_HEIGHT; y++) {
+        for (int x=0; x<BOARD_WIDTH; x++) {
+            // 判定座標の宣言
+            VEC2 position = {x,y};
+
+            // 対象座標に石を置けるかチェック
+            if (checkCanPlace(_color, position)) {
+                // 置けます！
+                return true;
+            }
+        }
+    }
+
+    // どこにも置けない
+    return false;
+}
+
 VEC2 vecAdd(
     VEC2 _v0,   // 
     VEC2 _v1    // 
@@ -227,3 +258,4 @@ VEC2 vecAdd(
         _v0.y + _v1.y
     };
 }
+
