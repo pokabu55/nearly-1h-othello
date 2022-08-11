@@ -199,14 +199,16 @@ bool checkCanPlace(
                     // 隣のマスに移動する
                     reversePosition = vecAdd(reversePosition, directions[i]);
 
-                    do
-                    {
-                        while (board[reversePosition.y][reversePosition.x] != _color)
-                        {
-                            /* code */
-                        }
-                        
-                    }
+                    // 現在のターンの石が見つかるまで反復する
+                    do {
+                        // 相手の石をひっくり返す
+                        board[reversePosition.y][reversePosition.x] = _color;
+
+                        // 隣のマスに移動する
+                        reversePosition = vecAdd(reversePosition, directions[i]);
+
+                    }while (board[reversePosition.y][reversePosition.x] != _color);
+
                 }
             }
         }
