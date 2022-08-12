@@ -68,3 +68,4 @@ VEC2 inputPosition();
 bool checkCanPlace(int _color, VEC2 _position, bool _turnOver = false);
 bool checkCanPlaceAll(int _color);
 VEC2 vecAdd(VEC2 _v0, VEC2 _v1);
+int  getDiskCount(int _color);

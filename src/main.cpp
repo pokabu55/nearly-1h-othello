@@ -6,6 +6,10 @@
 
 int main(void)
 {
+    // 開始ラベル
+start:
+    ; // 空文
+
     // 初期化
     init();
 
@@ -20,8 +24,22 @@ int main(void)
             // ターンを切り替える
             turn ^= 1;
 
-            // ターンをスキップして相手へ
-            continue;
+            // 置けるマスがあるかどうかをチェックする
+            if (!checkCanPlaceAll(turn)) {
+                // 決着が付いたことにする
+                turn = TURN_NONE;
+
+                drawScreen();
+
+                // キーボード入力を待つ
+                getch();
+
+                goto start;
+
+            } else {
+                // ターンをスキップして相手へ
+                continue;
+            }
         }
 
         // 石を置くマスを宣言する
@@ -94,10 +112,42 @@ void drawScreen()
         }
     }
 
-    // ターンを表示する
-    printf("\n%sのターンです\n", turnName[turn]);
+    // 決着が付いてないかどうかを判定する
+    if (turn != TURN_NONE) {
+        // ターンを表示する
+        printf("\n%sのターンです\n", turnName[turn]);
+    } else {
+        // 決着が付いたなら
+        int blackCount = getDiskCount(TURN_BLACK);
+        int whiteCount = getDiskCount(TURN_WHITE);
 
-    printf("\n");
+        int winner = -1;
+
+        if (blackCount >whiteCount) {
+            winner = TURN_BLACK;
+        }
+        else if (whiteCount > blackCount) {
+            winner = TURN_WHITE;
+        }
+        else {
+            // 引き分け
+            winner = TURN_NONE;
+        }
+
+        printf("%s%d--%s%d  ",
+                turnName[TURN_BLACK],
+                blackCount,
+                turnName[TURN_WHITE],
+                whiteCount
+        );
+
+        if (winner == TURN_NONE) {
+            printf("draw game\n");
+        } else {
+            printf("%s の勝ち\n", turnName[winner]);
+        }
+    }
+
 }
 
 VEC2 inputPosition()
@@ -259,3 +309,18 @@ VEC2 vecAdd(
     };
 }
 
+int  getDiskCount(int _color)
+{
+    int count = 0;
+
+    // 盤面のすべての石を数える
+    for (int y=0; y<BOARD_HEIGHT; y++) {
+        for (int x=0; x<BOARD_WIDTH; x++) {
+            if (board[y][x] == _color) {
+                count++;
+            }
+        }
+    }
+
+    return count;
+}
