@@ -10,6 +10,9 @@ int main(void)
 start:
     ; // 空文
 
+    // ゲームモードを選択する
+    selectMode();
+
     // 初期化
     init();
 
@@ -323,4 +326,42 @@ int  getDiskCount(int _color)
     }
 
     return count;
+}
+
+void selectMode()
+{
+    // 初期化
+    mode = MODE_1P;
+
+    while(1) {
+        // 画面のクリア
+        system("clear");
+
+        printf("select game mode\n");
+        printf("\n\n");
+
+        // モードの表示
+        for (int i=0; i<MODE_MAX; i++) {
+
+            // 現在のモードに＞をつける
+            printf("%s  ",(i==mode)?">":" ");
+
+            printf("%s\n",modeNames[i]);
+            printf("\n");
+        }
+
+        // 入力で分岐
+        switch(getch()) {
+        case 'w':
+            mode--;
+            break;
+        case 's':
+            mode++;
+            break;
+        default:
+            return;
+        }
+
+        mode = (MODE_MAX+mode)%MODE_MAX;
+    }
 }

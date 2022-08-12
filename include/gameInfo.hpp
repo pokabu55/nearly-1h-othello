@@ -26,12 +26,25 @@ enum {
     DIRECTION_MAX
 };
 
+// ゲームモード
+enum {
+    MODE_1P,    // COMと対戦
+    MODE_2P,    // 人間どうし
+    MODE_MAX    // モードの数
+};
+
 // 石のアスキーアート
 const char* diskAA[TURN_MAX]=
 {
     "○",    // black
     "●",    // white
     "□"     // none
+};
+
+// モード名
+const char* modeNames[] = {
+    "1P GAME",
+    "2P GAME"
 };
 
 // ベクトル構造体
@@ -60,6 +73,7 @@ VEC2 directions[DIRECTION_MAX] = {
 
 VEC2 cursorPosition;    // 現在のカーソル位置
 int  turn;              // 現在のターンの宣言
+int  mode;              // ゲームモードの番号
 
 // 関数
 void init();
@@ -69,3 +83,4 @@ bool checkCanPlace(int _color, VEC2 _position, bool _turnOver = false);
 bool checkCanPlaceAll(int _color);
 VEC2 vecAdd(VEC2 _v0, VEC2 _v1);
 int  getDiskCount(int _color);
+void selectMode();
