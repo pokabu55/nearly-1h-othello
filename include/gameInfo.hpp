@@ -92,3 +92,5 @@ bool checkCanPlaceAll(int _color);
 VEC2 vecAdd(VEC2 _v0, VEC2 _v1);
 int  getDiskCount(int _color);
 void selectMode();
+// 以下、自前
+bool searchNextTurn(VEC2 &placePosition, int _turn, bool random);

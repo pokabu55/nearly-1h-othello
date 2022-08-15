@@ -62,6 +62,10 @@ start:
             // キーボード入力
             getch();
 
+            // 次の手を決める
+            searchNextTurn(placePosition, turn, true);
+
+#if 0
             // 置ける座標を保持するvectorを宣言
             std::vector<VEC2> positoins;
 
@@ -83,7 +87,7 @@ start:
 
             // 置ける場所をランダムに取得する
             placePosition = positoins[rand() % positoins.size()];
-
+#endif
         }
 
         // 石をひっくり返す
@@ -432,4 +436,32 @@ void selectMode()
 
         mode = (MODE_MAX+mode)%MODE_MAX;
     }
+}
+
+bool searchNextTurn(VEC2 &placePosition, int _turn, bool random)
+{
+    // 置ける座標を保持するvectorを宣言
+    std::vector<VEC2> positoins;
+
+    // 盤面をスキャン
+    for (int y=0; y<BOARD_HEIGHT; y++) {
+        for (int x=0; x<BOARD_WIDTH; x++) {
+            // 対象のマス
+            VEC2 position = {x,y};
+
+            // 置けるか判定する
+            if (checkCanPlace(_turn, position)) {
+                // リストに追加
+                positoins.push_back(position);
+            }
+        }
+    }
+
+    if (random) {
+        // 置ける場所をランダムに取得する
+        placePosition = positoins[rand() % positoins.size()];
+    }
+
+    // よくわからんが、毎回返す
+    return true;
 }
