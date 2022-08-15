@@ -37,9 +37,12 @@ enum {
 // 石のアスキーアート
 const char* diskAA[TURN_MAX]=
 {
-    "○",    // black
-    "●",    // white
-    "□"     // none
+    //"○",    // black
+    //"●",    // white
+    //"□"     // none
+    "Ｘ",   // black
+    "＠",   // white
+    "・"    // none
 };
 
 // モード名
@@ -57,8 +60,10 @@ typedef struct
 }VEC2;
 
 const char* turnName[] = {
-    "黒",   // TURN_BLACK
-    "白"    // TURN_WHITE
+    //"黒",   // TURN_BLACK
+    //"白"    // TURN_WHITE
+    "Ｘ",     // black
+    "＠"      // white
 };
 
 //方向を宣言する

@@ -155,7 +155,7 @@ void drawScreen()
             if (x==cursorPosition.x) {
                 printf("↑");
             } else {
-                printf(" ");//　");
+                printf("　");//(" ");//
             }
         }
     }
