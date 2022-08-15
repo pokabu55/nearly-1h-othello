@@ -359,6 +359,21 @@ void selectMode()
             mode++;
             break;
         default:
+            // 選択されたモードで分岐する
+            switch (mode) {
+            case MODE_1P:
+                // AI対戦モード
+                isPlayer[TURN_BLACK] = true;    // 黒をプレイヤー
+                isPlayer[TURN_WHITE] = false;   // 白をAI
+                break;
+            case MODE_2P:
+                // 人間どうし
+                isPlayer[TURN_BLACK] = true;
+                isPlayer[TURN_WHITE] = true;
+                break;
+            }
+
+            // モード選択を抜ける
             return;
         }
 

@@ -74,6 +74,7 @@ VEC2 directions[DIRECTION_MAX] = {
 VEC2 cursorPosition;    // 現在のカーソル位置
 int  turn;              // 現在のターンの宣言
 int  mode;              // ゲームモードの番号
+bool isPlayer[TURN_MAX];// 各ターンがプレーヤーかどうかの宣言
 
 // 関数
 void init();
