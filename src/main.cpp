@@ -3,9 +3,14 @@
 ///#include <conio.h>
 #include "../include/gameInfo.hpp"
 #include "../include/conio.h"
+#include <vector>
+#include <time.h>
 
 int main(void)
 {
+    // 乱数をシャッフルする
+    srand((unsigned int)time(NULL));
+
     // 開始ラベル
 start:
     ; // 空文
@@ -48,8 +53,41 @@ start:
         // 石を置くマスを宣言する
         VEC2 placePosition;
 
-        // 石を置くマスを選択する関数
-        placePosition = inputPosition();
+        // 現在のターンがプレイヤーかどうかを判定する
+        if (isPlayer[turn]) {
+            // 石を置くマスを選択する関数
+            placePosition = inputPosition();
+        } else {
+            // プレーヤーでないなら、
+            // 盤面描画関数を呼ぶ
+            drawScreen();
+
+            // キーボード入力
+            getch();
+
+            // 置ける座標を保持するvectorを宣言
+            std::vector<VEC2> positoins;
+
+            // 盤面をスキャン
+            for (int y=0; y<BOARD_HEIGHT; y++) {
+                for (int x=0; x<BOARD_WIDTH; x++) {
+                    // 対象のマス
+                    VEC2 position = {x,y};
+
+                    // 置けるか判定する
+                    if (checkCanPlace(turn, position)) {
+                        // リストに追加
+                        positoins.push_back(position);
+                    }
+                }
+
+
+            }
+
+            // 置ける場所をランダムに取得する
+            placePosition = positoins[rand() % positoins.size()];
+
+        }
 
         // 石をひっくり返す
         checkCanPlace(turn, placePosition, true);
@@ -97,23 +135,33 @@ void drawScreen()
             printf("%s", diskAA[board[y][x]]);
         }
 
-        // カーソルの描画
-        if (y==cursorPosition.y) {
-            printf("←");
+        // プレイヤーの担当かどうか
+        if (isPlayer[turn]) {
+
+            // カーソルの描画
+            if (y==cursorPosition.y) {
+                printf("←");
+            }
         }
 
         printf("\n");
     }
 
-    for (int x=0; x<BOARD_WIDTH; x++) {
+    // プレイヤーの担当かどうか
+    if (isPlayer[turn]) {
+        for (int x=0; x<BOARD_WIDTH; x++) {
 
-        // カーソルの描画
-        if (x==cursorPosition.x) {
-            printf("↑");
-        } else {
-            printf(" ");//　");
+            // カーソルの描画
+            if (x==cursorPosition.x) {
+                printf("↑");
+            } else {
+                printf(" ");//　");
+            }
         }
     }
+
+    // カーソルの描画が終わったら開業しておく
+    printf("\n");
 
     // 決着が付いてないかどうかを判定する
     if (turn != TURN_NONE) {
@@ -147,7 +195,7 @@ void drawScreen()
         if (winner == TURN_NONE) {
             printf("draw game\n");
         } else {
-            printf("%s の勝ち\n", turnName[winner]);
+            printf("the winner is %s.\n", turnName[winner]);
         }
     }
 
