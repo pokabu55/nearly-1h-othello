@@ -21,9 +21,6 @@ start:
     // 初期化
     init();
 
-    // 黒のターンで初期化
-    turn = TURN_BLACK;
-
     // 6-9 メインループ
     while (1) {
 
@@ -114,6 +111,9 @@ void init()
     // 中央に黒い石を置く
     board[4][3] = board[3][4] = TURN_BLACK;
     board[3][3] = board[4][4] = TURN_WHITE;
+
+    // 黒のターンで初期化
+    turn = TURN_BLACK;
 
     // カーソル位置の初期化
     cursorPosition = {3,3};
