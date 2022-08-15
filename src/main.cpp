@@ -64,30 +64,6 @@ start:
 
             // 次の手を決める
             searchNextTurn(placePosition, turn, true);
-
-#if 0
-            // 置ける座標を保持するvectorを宣言
-            std::vector<VEC2> positoins;
-
-            // 盤面をスキャン
-            for (int y=0; y<BOARD_HEIGHT; y++) {
-                for (int x=0; x<BOARD_WIDTH; x++) {
-                    // 対象のマス
-                    VEC2 position = {x,y};
-
-                    // 置けるか判定する
-                    if (checkCanPlace(turn, position)) {
-                        // リストに追加
-                        positoins.push_back(position);
-                    }
-                }
-
-
-            }
-
-            // 置ける場所をランダムに取得する
-            placePosition = positoins[rand() % positoins.size()];
-#endif
         }
 
         // 石をひっくり返す
