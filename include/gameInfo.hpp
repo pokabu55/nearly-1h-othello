@@ -30,6 +30,7 @@ enum {
 enum {
     MODE_1P,    // COMと対戦
     MODE_2P,    // 人間どうし
+    MODE_WATCH, // COMどうし
     MODE_MAX    // モードの数
 };
 
@@ -44,7 +45,8 @@ const char* diskAA[TURN_MAX]=
 // モード名
 const char* modeNames[] = {
     "1P GAME",
-    "2P GAME"
+    "2P GAME",
+    "WATCH"
 };
 
 // ベクトル構造体

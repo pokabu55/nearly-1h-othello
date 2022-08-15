@@ -419,6 +419,11 @@ void selectMode()
                 isPlayer[TURN_BLACK] = true;
                 isPlayer[TURN_WHITE] = true;
                 break;
+            case MODE_WATCH:
+                // AIどうし
+                isPlayer[TURN_BLACK] = false;
+                isPlayer[TURN_WHITE] = false;
+                break;
             }
 
             // モード選択を抜ける
