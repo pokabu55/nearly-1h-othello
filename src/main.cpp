@@ -5,6 +5,7 @@
 #include "../include/conio.h"
 #include <vector>
 #include <time.h>
+#include <cstring>
 
 int main(void)
 {
@@ -20,6 +21,8 @@ start:
 
     // 初期化
     init();
+
+    int revCnt = 0;
 
     // 6-9 メインループ
     while (1) {
@@ -67,7 +70,7 @@ start:
         }
 
         // 石をひっくり返す
-        checkCanPlace(turn, placePosition, true);
+        checkCanPlace(turn, placePosition, revCnt, true);
 
         // 石を置く
         board[placePosition.y][placePosition.x] = turn;
@@ -185,6 +188,8 @@ VEC2 inputPosition()
 {
     // 置く位置を入力する
 
+    int revCnt = 0;
+
     // 置けるマスが選択されるまで無限ループ
     while (1) {
         drawScreen();
@@ -207,7 +212,7 @@ VEC2 inputPosition()
                 // 上記以外のキー入力されたら、カーソル座標を返す
 
                 // カーソル位置に置けるかの判定
-                if (checkCanPlace(turn, cursorPosition)) {
+                if (checkCanPlace(turn, cursorPosition, revCnt)) {
                     return cursorPosition;
                 } else {
                     // 置けなければ
@@ -230,10 +235,14 @@ VEC2 inputPosition()
 bool checkCanPlace(
     int     _color,     // 石の色
     VEC2    _position,  // 座標
+    int     &reverseCount, // ひっくり返せる数
     bool    _turnOver   // ひっくり返すかどうか
 ){
     // 置けるフラグ
     bool canPlace = false;
+
+    // リセット
+    reverseCount = 0;
 
     // 対象座標に石があるか判定する
     if (board[_position.y][_position.x] != TURN_NONE) {
@@ -294,6 +303,7 @@ bool checkCanPlace(
                     do {
                         // 相手の石をひっくり返す
                         board[reversePosition.y][reversePosition.x] = _color;
+                        reverseCount++;
 
                         // 隣のマスに移動する
                         reversePosition = vecAdd(reversePosition, directions[i]);
@@ -311,6 +321,8 @@ bool checkCanPlace(
 // 盤面上に石を置けるマスがあるかどうかを判定する
 bool checkCanPlaceAll(int _color)
 {
+    int revCnt = 0;
+
     // 盤面をスキャン
     for (int y=0; y<BOARD_HEIGHT; y++) {
         for (int x=0; x<BOARD_WIDTH; x++) {
@@ -318,7 +330,7 @@ bool checkCanPlaceAll(int _color)
             VEC2 position = {x,y};
 
             // 対象座標に石を置けるかチェック
-            if (checkCanPlace(_color, position)) {
+            if (checkCanPlace(_color, position, revCnt)) {
                 // 置けます！
                 return true;
             }
@@ -418,6 +430,7 @@ bool searchNextTurn(VEC2 &placePosition, int _turn, bool random)
 {
     // 置ける座標を保持するvectorを宣言
     std::vector<VEC2> positoins;
+    int revCnt = 0;
 
     // 盤面をスキャン
     for (int y=0; y<BOARD_HEIGHT; y++) {
@@ -426,7 +439,7 @@ bool searchNextTurn(VEC2 &placePosition, int _turn, bool random)
             VEC2 position = {x,y};
 
             // 置けるか判定する
-            if (checkCanPlace(_turn, position)) {
+            if (checkCanPlace(_turn, position, revCnt)) {
                 // リストに追加
                 positoins.push_back(position);
             }
@@ -436,7 +449,31 @@ bool searchNextTurn(VEC2 &placePosition, int _turn, bool random)
     if (random) {
         // 置ける場所をランダムに取得する
         placePosition = positoins[rand() % positoins.size()];
+        return true;
     }
+
+    int reverseCount = 0;
+    int maxCount = -1;
+    VEC2 maxPos;
+
+    // 置ける位置で、ひっくり返せる数を数える
+    for (const auto& e : positoins) {
+        // 現状のマスからコピー
+        memcpy(board_tmp, board, BOARD_HEIGHT*BOARD_WIDTH*sizeof(int));
+
+        // checkCanPlace関数で、ひっくり返し引数をTrueにする
+        // checkCanPlace関数もひっくり返す数を数えるように変更する
+        checkCanPlace(_turn, e, reverseCount, true);
+
+        if (maxCount < reverseCount) {
+            maxCount = reverseCount;
+            maxPos = e;
+        }
+    }
+
+    if (maxCount <= 0) return false;
+
+    placePosition = maxPos;
 
     // よくわからんが、毎回返す
     return true;

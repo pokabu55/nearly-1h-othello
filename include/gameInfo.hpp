@@ -4,6 +4,8 @@
 
 // 各マスの状態
 int board[BOARD_HEIGHT][BOARD_WIDTH];
+// 計算用のマス
+int board_tmp[BOARD_HEIGHT][BOARD_WIDTH];
 
 // ターンの種類
 enum {
@@ -87,7 +89,7 @@ bool isPlayer[TURN_MAX];// 各ターンがプレーヤーかどうかの宣言
 void init();
 void drawScreen();
 VEC2 inputPosition();
-bool checkCanPlace(int _color, VEC2 _position, bool _turnOver = false);
+bool checkCanPlace(int _color, VEC2 _position, int &reverseCount, bool _turnOver = false);
 bool checkCanPlaceAll(int _color);
 VEC2 vecAdd(VEC2 _v0, VEC2 _v1);
 int  getDiskCount(int _color);
