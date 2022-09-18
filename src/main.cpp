@@ -91,6 +91,9 @@ void init()
         }
     }
 
+    // マスのスコアのセット
+    setScore();
+
     // 中央に黒い石を置く
     board[4][3] = board[3][4] = TURN_BLACK;
     board[3][3] = board[4][4] = TURN_WHITE;
@@ -477,4 +480,23 @@ bool searchNextTurn(VEC2 &placePosition, int _turn, bool random)
 
     // よくわからんが、毎回返す
     return true;
+}
+
+void setScore()
+{
+    // マスのスコアのセット
+
+    int score_tmp[] = {
+         100, -200, 0, 0, 0, 0, -200,  100,
+        -200, -200, 0, 0, 0, 0, -200, -200,
+           0,    0, 0, 0, 0, 0,    0,    0,
+           0,    0, 0, 0, 0, 0,    0,    0,
+           0,    0, 0, 0, 0, 0,    0,    0,
+           0,    0, 0, 0, 0, 0,    0,    0,
+        -200, -200, 0, 0, 0, 0, -200, -200,
+         100, -200, 0, 0, 0, 0, -200,  100
+    };
+
+    memcpy(score_map, score_tmp, sizeof(int)*BOARD_WIDTH*BOARD_HEIGHT);
+
 }

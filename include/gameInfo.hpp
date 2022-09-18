@@ -6,6 +6,8 @@
 int board[BOARD_HEIGHT][BOARD_WIDTH];
 // 計算用のマス
 int board_tmp[BOARD_HEIGHT][BOARD_WIDTH];
+// マスのスコア用のマス
+int score_map[BOARD_HEIGHT][BOARD_WIDTH];
 
 // ターンの種類
 enum {
@@ -96,3 +98,4 @@ int  getDiskCount(int _color);
 void selectMode();
 // 以下、自前
 bool searchNextTurn(VEC2 &placePosition, int _turn, bool random);
+void setScore();
