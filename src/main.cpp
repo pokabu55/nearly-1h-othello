@@ -6,6 +6,7 @@
 #include <vector>
 #include <time.h>
 #include <cstring>
+#include <iostream>
 
 int main(void)
 {
@@ -66,7 +67,8 @@ start:
             getch();
 
             // 次の手を決める
-            searchNextTurn(placePosition, turn, true);
+            bool random = false;//true;//
+            searchNextTurn(placePosition, turn, random);
         }
 
         // 石をひっくり返す
@@ -253,6 +255,9 @@ bool checkCanPlace(
         return false;
     }
 
+    // 置き石のカウント
+    reverseCount += score_map[_position.y][_position.x];
+
     // 相手の石の色を宣言する
     int opponent = _color^1;
 
@@ -269,6 +274,9 @@ bool checkCanPlace(
             //相手の石でなければ、その方向のチェックを中断する
             continue;
         }
+
+        // いらなくね？
+        //reverseCount += score_map[currentPosition.y][currentPosition.x];
 
         // 無限ループする
         while(1) {
@@ -306,7 +314,7 @@ bool checkCanPlace(
                     do {
                         // 相手の石をひっくり返す
                         board[reversePosition.y][reversePosition.x] = _color;
-                        reverseCount++;
+                        reverseCount += score_map[reversePosition.y][reversePosition.x];
 
                         // 隣のマスに移動する
                         reversePosition = vecAdd(reversePosition, directions[i]);
@@ -452,15 +460,21 @@ bool searchNextTurn(VEC2 &placePosition, int _turn, bool random)
     if (random) {
         // 置ける場所をランダムに取得する
         placePosition = positoins[rand() % positoins.size()];
+        std::cout << "( " << placePosition.x << ", " << placePosition.y << " )" << std::endl;
         return true;
     }
 
     int reverseCount = 0;
-    int maxCount = -1;
+    int maxCount = -1000;
     VEC2 maxPos;
 
     // 置ける位置で、ひっくり返せる数を数える
     for (const auto& e : positoins) {
+
+        // TODO:次の評価に入る前に、盤面を元の状態に戻す必要がある
+
+        std::cout << "( " << e.x << ", " << e.y << " )" << std::endl;
+
         // 現状のマスからコピー
         memcpy(board_tmp, board, BOARD_HEIGHT*BOARD_WIDTH*sizeof(int));
 
@@ -487,14 +501,14 @@ void setScore()
     // マスのスコアのセット
 
     int score_tmp[] = {
-         100, -200, 0, 0, 0, 0, -200,  100,
-        -200, -200, 0, 0, 0, 0, -200, -200,
-           0,    0, 0, 0, 0, 0,    0,    0,
-           0,    0, 0, 0, 0, 0,    0,    0,
-           0,    0, 0, 0, 0, 0,    0,    0,
-           0,    0, 0, 0, 0, 0,    0,    0,
-        -200, -200, 0, 0, 0, 0, -200, -200,
-         100, -200, 0, 0, 0, 0, -200,  100
+         100, -200, 1, 1, 1, 1, -200,  100,
+        -200, -200, 1, 1, 1, 1, -200, -200,
+           1,    1, 1, 1, 1, 1,    1,    1,
+           1,    1, 1, 1, 1, 1,    1,    1,
+           1,    1, 1, 1, 1, 1,    1,    1,
+           1,    1, 1, 1, 1, 1,    1,    1,
+        -200, -200, 1, 1, 1, 1, -200, -200,
+         100, -200, 1, 1, 1, 1, -200,  100
     };
 
     memcpy(score_map, score_tmp, sizeof(int)*BOARD_WIDTH*BOARD_HEIGHT);
